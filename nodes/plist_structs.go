@@ -45,3 +45,24 @@ type Plist struct {
 	ProgramArguments
 	StartCalendarInterval
 }
+
+func NewPlist(
+	lable string,
+	runAtLoad bool,
+	disabled bool,
+	keepAlive bool,
+	launchOnlyOnce bool,
+	programArguments []string,
+	startCalendarInterval string,
+) *Plist {
+
+	return &Plist{
+		Label{lable},
+		RunAtLoad{runAtLoad},
+		Disabled{disabled},
+		KeepAlive{keepAlive},
+		LaunchOnlyOnce{launchOnlyOnce},
+		ProgramArguments{programArguments},
+		StartCalendarInterval{},
+	}
+}
