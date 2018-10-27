@@ -53,7 +53,7 @@ func NewPlist(
 	keepAlive bool,
 	launchOnlyOnce bool,
 	programArguments []string,
-	startCalendarInterval string,
+	startCalendarInterval []map[string]int,
 ) *Plist {
 
 	return &Plist{
@@ -63,6 +63,23 @@ func NewPlist(
 		KeepAlive{keepAlive},
 		LaunchOnlyOnce{launchOnlyOnce},
 		ProgramArguments{programArguments},
-		StartCalendarInterval{},
+		StartCalendarInterval{Intervals: constructCalendarkeys(startCalendarInterval)},
 	}
+}
+
+func constructCalendarkeys(calendarIntervals []map[string]int) []CalendarKeys {
+	calendarKeys := []CalendarKeys{}
+	for _, v := range calendarIntervals {
+		calendarKeys = append(
+			calendarKeys,
+			CalendarKeys{
+				Month:   v["month"],
+				Day:     v["day"],
+				Weekday: v["weekday"],
+				Hour:    v["hour"],
+				Minute:  v["minute"],
+			},
+		)
+	}
+	return calendarKeys
 }
