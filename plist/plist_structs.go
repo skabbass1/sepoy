@@ -1,4 +1,25 @@
-package nodes
+package plist
+
+func NewPlist(
+	lable string,
+	runAtLoad bool,
+	disabled bool,
+	keepAlive bool,
+	launchOnlyOnce bool,
+	programArguments []string,
+	startCalendarInterval []map[string]int,
+) *Plist {
+
+	return &Plist{
+		Label{lable},
+		RunAtLoad{runAtLoad},
+		Disabled{disabled},
+		KeepAlive{keepAlive},
+		LaunchOnlyOnce{launchOnlyOnce},
+		ProgramArguments{programArguments},
+		StartCalendarInterval{Intervals: constructCalendarkeys(startCalendarInterval)},
+	}
+}
 
 type Label struct {
 	Value string `plist:"Label"`
@@ -44,27 +65,6 @@ type Plist struct {
 	LaunchOnlyOnce
 	ProgramArguments
 	StartCalendarInterval
-}
-
-func NewPlist(
-	lable string,
-	runAtLoad bool,
-	disabled bool,
-	keepAlive bool,
-	launchOnlyOnce bool,
-	programArguments []string,
-	startCalendarInterval []map[string]int,
-) *Plist {
-
-	return &Plist{
-		Label{lable},
-		RunAtLoad{runAtLoad},
-		Disabled{disabled},
-		KeepAlive{keepAlive},
-		LaunchOnlyOnce{launchOnlyOnce},
-		ProgramArguments{programArguments},
-		StartCalendarInterval{Intervals: constructCalendarkeys(startCalendarInterval)},
-	}
 }
 
 func constructCalendarkeys(calendarIntervals []map[string]int) []CalendarKeys {

@@ -1,4 +1,4 @@
-package nodes
+package plist
 
 import (
 	"testing"
