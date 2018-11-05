@@ -8,6 +8,9 @@ func NewPlist(
 	launchOnlyOnce bool,
 	programArguments []string,
 	startCalendarInterval []map[string]int,
+	standardOutPath string,
+	standardErrorPath string,
+
 ) *Plist {
 
 	return &Plist{
@@ -18,6 +21,8 @@ func NewPlist(
 		LaunchOnlyOnce{launchOnlyOnce},
 		ProgramArguments{programArguments},
 		StartCalendarInterval{Intervals: constructCalendarkeys(startCalendarInterval)},
+		StandardOutPath{standardOutPath},
+		StandardErrorPath{standardErrorPath},
 	}
 }
 
@@ -57,6 +62,13 @@ type CalendarKeys struct {
 	Minute  int `plist:"Minute"`
 }
 
+type StandardOutPath struct {
+	Value string `plist:"StandarOutPath"`
+}
+type StandardErrorPath struct {
+	Value string `plist:"StandarErrorPath"`
+}
+
 type Plist struct {
 	Label
 	RunAtLoad
@@ -65,6 +77,8 @@ type Plist struct {
 	LaunchOnlyOnce
 	ProgramArguments
 	StartCalendarInterval
+	StandardOutPath
+	StandardErrorPath
 }
 
 func constructCalendarkeys(calendarIntervals []map[string]int) []CalendarKeys {

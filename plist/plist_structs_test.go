@@ -31,6 +31,8 @@ func TestNewPlistCreation(t *testing.T) {
 				"minute":  0,
 			},
 		},
+		"/tmp/mytask.stdout",
+		"/tmp/mytask.stderr",
 	)
 
 	expected := `<?xml version="1.0" encoding="UTF-8"?>

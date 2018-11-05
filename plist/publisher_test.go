@@ -35,6 +35,8 @@ func TestPublishPlist(t *testing.T) {
 				"minute":  0,
 			},
 		},
+		"/tmp/mytask.stdout",
+		"/tmp/mytask.stderr",
 	)
 
 	location := "/tmp/test.plist"
