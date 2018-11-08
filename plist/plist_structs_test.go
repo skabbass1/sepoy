@@ -31,6 +31,7 @@ func TestNewPlistCreation(t *testing.T) {
 				"minute":  0,
 			},
 		},
+		map[string]string{"PATH": "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:"},
 		"/tmp/mytask.stdout",
 		"/tmp/mytask.stderr",
 	)
@@ -41,6 +42,11 @@ func TestNewPlistCreation(t *testing.T) {
  <dict>
   <key>Disabled</key>
   <false/>
+  <key>EnvironmentVariables</key>
+  <dict>
+   <key>PATH</key>
+   <string>/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:</string>
+  </dict>
   <key>KeepAlive</key>
   <false/>
   <key>Label</key>
@@ -55,6 +61,10 @@ func TestNewPlistCreation(t *testing.T) {
   </array>
   <key>RunAtLoad</key>
   <false/>
+  <key>StandardErrorPath</key>
+  <string>/tmp/mytask.stderr</string>
+  <key>StandardOutPath</key>
+  <string>/tmp/mytask.stdout</string>
   <key>StartCalendarInterval</key>
   <array>
    <dict>

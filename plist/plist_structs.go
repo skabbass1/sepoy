@@ -8,6 +8,7 @@ func NewPlist(
 	launchOnlyOnce bool,
 	programArguments []string,
 	startCalendarInterval []map[string]int,
+	environmentVariables map[string]string,
 	standardOutPath string,
 	standardErrorPath string,
 
@@ -20,7 +21,8 @@ func NewPlist(
 		KeepAlive{keepAlive},
 		LaunchOnlyOnce{launchOnlyOnce},
 		ProgramArguments{programArguments},
-		StartCalendarInterval{Intervals: constructCalendarkeys(startCalendarInterval)},
+		StartCalendarInterval{constructCalendarkeys(startCalendarInterval)},
+		EnvironmentVariables{environmentVariables},
 		StandardOutPath{standardOutPath},
 		StandardErrorPath{standardErrorPath},
 	}
@@ -62,11 +64,15 @@ type CalendarKeys struct {
 	Minute  int `plist:"Minute"`
 }
 
+type EnvironmentVariables struct {
+	Values map[string]string `plist:"EnvironmentVariables"`
+}
+
 type StandardOutPath struct {
-	Value string `plist:"StandarOutPath"`
+	Value string `plist:"StandardOutPath"`
 }
 type StandardErrorPath struct {
-	Value string `plist:"StandarErrorPath"`
+	Value string `plist:"StandardErrorPath"`
 }
 
 type Plist struct {
@@ -77,6 +83,7 @@ type Plist struct {
 	LaunchOnlyOnce
 	ProgramArguments
 	StartCalendarInterval
+	EnvironmentVariables
 	StandardOutPath
 	StandardErrorPath
 }

@@ -35,6 +35,7 @@ func TestPublishPlist(t *testing.T) {
 				"minute":  0,
 			},
 		},
+		map[string]string{"PATH": "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:"},
 		"/tmp/mytask.stdout",
 		"/tmp/mytask.stderr",
 	)
