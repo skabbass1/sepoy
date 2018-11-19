@@ -57,11 +57,11 @@ type StartCalendarInterval struct {
 }
 
 type CalendarKeys struct {
-	Month   int `plist:"Month"`
-	Day     int `plist:"Day"`
-	Weekday int `plist:"Weekday"`
-	Hour    int `plist:"Hour"`
-	Minute  int `plist:"Minute"`
+	Month   int `plist:"Month,omitempty"`
+	Day     int `plist:"Day,omitempty"`
+	Weekday int `plist:"Weekday,omitempty"`
+	Hour    int `plist:"Hour,omitempty"`
+	Minute  int `plist:"Minute,omitempty"`
 }
 
 type EnvironmentVariables struct {

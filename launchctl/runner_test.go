@@ -7,8 +7,6 @@ import (
 	"path"
 	"strings"
 	"testing"
-
-	"github.com/skabbass1/sepoy/plist"
 )
 
 const serviceName = "com.spendthrift"
@@ -16,7 +14,7 @@ const serviceName = "com.spendthrift"
 func TestMain(m *testing.M) {
 	setUpPlist()
 	code := m.Run()
-	// tearDownPlist()
+	tearDownPlist()
 	os.Exit(code)
 }
 
@@ -51,31 +49,6 @@ func TestStart(t *testing.T) {
 }
 
 func setUpPlist() {
-
-	myplist := plist.NewPlist(
-		"com.spendthrift",
-		false,
-		false,
-		false,
-		false,
-		[]string{"/Applications/Docker.app/Contents/Resources/bin/docker", "run", "--rm", "skabbass1/spendthrift:v0.0.1"},
-		[]map[string]int{
-			map[string]int{
-				"month":   1,
-				"day":     15,
-				"weekday": 0,
-				"hour":    15,
-				"minute":  0,
-			},
-		},
-		map[string]string{"PATH": "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:"},
-		"/tmp/test_spendthrift.stdout",
-		"/tmp/test_spendthrift.stderr",
-	)
-	err := plist.PublishPlist(*myplist, plistLocation())
-	if err != nil {
-		panic(err)
-	}
 
 }
 
