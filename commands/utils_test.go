@@ -1,0 +1,44 @@
+package commands
+
+import (
+	"reflect"
+	"testing"
+)
+
+func TestValidParseSchedule(t *testing.T) {
+	schedule := "0-0-7-12-0"
+	got, error := ParseSchedule(schedule)
+
+	if error != nil {
+		t.Error(error)
+	}
+	expected := map[string]int{
+		"month":   0,
+		"day":     0,
+		"weekday": 7,
+		"hour":    12,
+		"minute":  0,
+	}
+	eq := reflect.DeepEqual(expected, got)
+	if !eq {
+		t.Errorf("expected: %v got: %v", expected, got)
+	}
+
+}
+
+func TestInValidParseSchedule(t *testing.T) {
+	testCases := []string{
+		"",
+		"00",
+		"0}12-13",
+		"0-0-7-12-0-1",
+		"a-b-c-d-e-f",
+	}
+
+	for _, tc :=  range testCases {
+		_, err := ParseSchedule(tc)
+		if err == nil {
+			t.Errorf("expected error to be not nil for test case:%s", tc)
+		}
+	}
+}
