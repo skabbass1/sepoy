@@ -1,13 +1,14 @@
-package plist
+package unit
 
 import (
 	"testing"
 
 	goplist "github.com/DHowett/go-plist"
+	"github.com/skabbass1/sepoy/plist"
 )
 
 func TestNewPlistCreation(t *testing.T) {
-	myplist := NewPlist(
+	myplist := plist.NewPlist(
 		"mytask",
 		false,
 		false,

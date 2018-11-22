@@ -1,13 +1,15 @@
-package commands
+package unit
 
 import (
 	"reflect"
 	"testing"
+
+	"github.com/skabbass1/sepoy/commands"
 )
 
 func TestValidParseSchedule(t *testing.T) {
 	schedule := "0-0-7-12-0"
-	got, error := ParseSchedule(schedule)
+	got, error := commands.ParseSchedule(schedule)
 
 	if error != nil {
 		t.Error(error)
@@ -35,8 +37,8 @@ func TestInValidParseSchedule(t *testing.T) {
 		"a-b-c-d-e-f",
 	}
 
-	for _, tc :=  range testCases {
-		_, err := ParseSchedule(tc)
+	for _, tc := range testCases {
+		_, err := commands.ParseSchedule(tc)
 		if err == nil {
 			t.Errorf("expected error to be not nil for test case:%s", tc)
 		}
