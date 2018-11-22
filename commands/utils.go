@@ -2,8 +2,11 @@ package commands
 
 import (
 	"errors"
-	"strings"
+	"fmt"
+	"os/user"
+	"path"
 	"strconv"
+	"strings"
 )
 
 func ParseSchedule(schedule string) (map[string]int, error) {
@@ -29,4 +32,9 @@ func ParseSchedule(schedule string) (map[string]int, error) {
 		"hour":    hour,
 		"minute":  minute,
 	}, nil
+}
+
+func PlistLocation(jobName string) string {
+	usr, _ := user.Current()
+	return path.Join(usr.HomeDir, fmt.Sprintf("Library/LaunchAgents/%s.plist", jobName))
 }

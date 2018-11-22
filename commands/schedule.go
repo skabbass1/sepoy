@@ -3,8 +3,6 @@ package commands
 import (
 	"errors"
 	"fmt"
-	"os/user"
-	"path"
 	"strings"
 
 	"github.com/skabbass1/sepoy/launchctl"
@@ -14,23 +12,23 @@ import (
 
 var Schedule = cli.Command{
 	Name:  "schedule",
-	Usage: "schedule a servie or batch job",
+	Usage: "schedule a servie or batch task",
 	Subcommands: []cli.Command{
 		{
 			Name:  "batch",
-			Usage: "schedule a batch job to run periodically",
+			Usage: "schedule a batch task to run periodically",
 			Flags: []cli.Flag{
 				cli.StringFlag{
 					Name:  "run-schedule",
-					Usage: "specify run-schedule as month-weekday-hour-minute. E.g 0-0-7-12-0. 0 denotes a wildcard entry",
+					Usage: "specify run-schedule as month-day-weekday-hour-minute. E.g 0-0-7-12-0. 0 denotes a wildcard entry",
 				},
 			},
-			Action: scheduleBatch,
+			Action: scheduleBatchTask,
 		},
 	},
 }
 
-func scheduleBatch(c *cli.Context) *cli.ExitError {
+func scheduleBatchTask(c *cli.Context) error {
 
 	runSchedule := c.String("run-schedule")
 	validationErr := ValidateScheduleBatchInput(c.Args(), runSchedule)
@@ -43,10 +41,10 @@ func scheduleBatch(c *cli.Context) *cli.ExitError {
 		return cli.NewExitError(parseErr, 1)
 	}
 
-	jobName := fmt.Sprintf("com.%s", c.Args().Get(0))
-	jobCommand := strings.Split(c.Args().Get(1), " ")
+	taskName := fmt.Sprintf("com.%s", c.Args().Get(0))
+	taskCommand := strings.Split(c.Args().Get(1), " ")
 
-	scheduleErr := ScheduleBatchJob(jobName, jobCommand, parsedSchedule, map[string]string{})
+	scheduleErr := ScheduleBatchTask(taskName, taskCommand, parsedSchedule, map[string]string{})
 	if scheduleErr != nil {
 		return cli.NewExitError(scheduleErr, 1)
 	}
@@ -54,32 +52,32 @@ func scheduleBatch(c *cli.Context) *cli.ExitError {
 
 }
 
-func ScheduleBatchJob(
-	jobName string,
-	jobCommand []string,
+func ScheduleBatchTask(
+	taskName string,
+	taskCommand []string,
 	runSchedule map[string]int,
-	jobEnvVars map[string]string) error {
+	taskEnvVars map[string]string) error {
 
-	jobPlist := plist.NewPlist(
-		jobName,
+	taskPlist := plist.NewPlist(
+		taskName,
 		false,
 		false,
 		false,
 		false,
-		jobCommand,
+		taskCommand,
 		[]map[string]int{
 			runSchedule,
 		},
-		jobEnvVars,
-		fmt.Sprintf("/tmp/%s.stdout", jobName),
-		fmt.Sprintf("/tmp/%s.stderr", jobName),
+		taskEnvVars,
+		fmt.Sprintf("/tmp/%s.stdout", taskName),
+		fmt.Sprintf("/tmp/%s.stderr", taskName),
 	)
-	err := plist.PublishPlist(*jobPlist, plistLocation(jobName))
+	err := plist.PublishPlist(*taskPlist, PlistLocation(taskName))
 	if err != nil {
 		panic(err)
 	}
 
-	_, err = launchctl.Load(plistLocation(jobName))
+	_, err = launchctl.Load(PlistLocation(taskName))
 	if err != nil {
 		return err
 	}
@@ -96,9 +94,4 @@ func ValidateScheduleBatchInput(args []string, runSchedule string) error {
 		return errors.New("run-schedule must be provided")
 	}
 	return nil
-}
-
-func plistLocation(jobName string) string {
-	usr, _ := user.Current()
-	return path.Join(usr.HomeDir, fmt.Sprintf("Library/LaunchAgents/%s.plist", jobName))
 }
