@@ -11,7 +11,12 @@ import (
 func main() {
 	app := cli.NewApp()
 
-	app.Commands = []cli.Command{commands.Schedule}
+	app.Commands = []cli.Command{
+		commands.Schedule,
+		commands.Unschedule,
+		commands.Info,
+		commands.Start,
+	}
 	err := app.Run(os.Args)
 	if err != nil {
 		log.Fatal(err)
