@@ -16,6 +16,7 @@ func main() {
 		commands.Unschedule,
 		commands.Info,
 		commands.Start,
+		commands.Plist,
 	}
 	err := app.Run(os.Args)
 	if err != nil {
