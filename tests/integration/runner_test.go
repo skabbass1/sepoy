@@ -1,4 +1,4 @@
-package launchctl
+package integration
 
 import (
 	"fmt"
@@ -7,6 +7,8 @@ import (
 	"path"
 	"strings"
 	"testing"
+
+	"github.com/skabbass1/sepoy/launchctl"
 )
 
 const serviceName = "com.spendthrift"
@@ -19,7 +21,7 @@ func TestMain(m *testing.M) {
 }
 
 func TestRunSubprocess(t *testing.T) {
-	_, err := RunSubprocess("ls", []string{"-ltr"})
+	_, err := launchctl.RunSubprocess("ls", []string{"-ltr"})
 
 	if err != nil {
 		t.Error(err)
@@ -27,13 +29,13 @@ func TestRunSubprocess(t *testing.T) {
 }
 
 func TestLoad(t *testing.T) {
-	_, err := Load(plistLocation())
+	_, err := launchctl.Load(plistLocation())
 
 	if err != nil {
 		t.Error(err)
 	}
 
-	out, err := List(serviceName)
+	out, err := launchctl.List(serviceName)
 	if strings.Contains(out, "Could not find") {
 		t.Error(out)
 	}
@@ -41,8 +43,8 @@ func TestLoad(t *testing.T) {
 }
 
 func TestStart(t *testing.T) {
-	Load(plistLocation())
-	_, err := Start(serviceName)
+	launchctl.Load(plistLocation())
+	_, err := launchctl.Start(serviceName)
 	if err != nil {
 		t.Error(err)
 	}
@@ -53,7 +55,7 @@ func setUpPlist() {
 }
 
 func tearDownPlist() {
-	Unload(plistLocation())
+	launchctl.Unload(plistLocation())
 	os.Remove(plistLocation())
 }
 

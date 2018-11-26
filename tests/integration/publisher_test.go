@@ -1,4 +1,4 @@
-package plist
+package integration
 
 import (
 	"io/ioutil"
@@ -7,11 +7,12 @@ import (
 	"testing"
 
 	goplist "github.com/DHowett/go-plist"
+	"github.com/skabbass1/sepoy/plist"
 )
 
 func TestPublishPlist(t *testing.T) {
 
-	myplist := NewPlist(
+	myplist := plist.NewPlist(
 		"mytask",
 		false,
 		false,
@@ -44,12 +45,12 @@ func TestPublishPlist(t *testing.T) {
 
 	defer os.Remove(location)
 
-	err := PublishPlist(*myplist, location)
+	err := plist.PublishPlist(*myplist, location)
 	if err != nil {
 		t.Error(err)
 	}
 
-	got := Plist{}
+	got := plist.Plist{}
 	bytes, _ := ioutil.ReadFile(location)
 	goplist.Unmarshal(bytes, &got)
 
