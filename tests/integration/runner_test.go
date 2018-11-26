@@ -11,7 +11,7 @@ import (
 	"github.com/skabbass1/sepoy/launchctl"
 )
 
-const serviceName = "com.spendthrift"
+const serviceName = "com.testls"
 
 func TestMain(m *testing.M) {
 	setUpPlist()
